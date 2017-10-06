@@ -23,7 +23,7 @@ var YDL_SECOND = "%(id)s.%(ext)s"
 
 /** TELEGRAM STUFF **/
 var TG_URL = "https://api.telegram.org/bot%s/%s"
-var TG_TOKEN = "467191911:AAFF5LPexqvVr4YoVuAmU-K77gCrkA555tw"
+var TG_TOKEN = "<TOKEN>
 
 // @musicExtractorBot Telegram bot commands
 var TG_START = "/start"
