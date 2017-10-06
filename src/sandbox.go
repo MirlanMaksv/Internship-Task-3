@@ -1,17 +1,7 @@
 package main
 
-import (
-	"fmt"
-)
-
 func test() {
-	command := fmt.Sprintf(YDL_FIRTS, "3gzqsmx1KGU") + YDL_SECOND
-	res, ok := execute(command)
-	if !ok {
-		return
-	}
-	ext := getExtension(res, "3gzqsmx1KGU")
-
-	command = fmt.Sprintf(FFMPEG, "3gzqsmx1KGU"+"."+ext, "3gzqsmx1KGU")
-	execute(command)
+	//url := fmt.Sprintf(TG_URL, TG_TOKEN, TG_SENDMESSAGE)
+	//data, _ := json.Marshal(ShortMessage{Chat_id: 476368389, Text: "Hi"})
+	//http.Post(url, "application/json", bytes.NewBuffer(data))
 }
