@@ -1,0 +1,20 @@
+{
+  "url": "https://api.telegram.org/bot%s/%s",
+  "bot_token": "467191911:AAFF5LPexqvVr4YoVuAmU-K77gCrkA555tw",
+  "commands": {
+    "start": "/start",
+    "getMusic": "/getmusic"
+  },
+  "methods": {
+    "sendMessage": "sendMessage",
+    "sendAudio": "sendAudio"
+  },
+  "messages": {
+    "introduce": "Hi I am music extractor bot. Provide me with youtube video url you will get back mp3 of that video",
+    "noArgs": "Include URL",
+    "wait": "Downloading from the source ...",
+    "smtWentWrong": "Oops, something went wrong :(",
+    "cantUnderstand": "Sorry, I didn't get you",
+    "uploading": "Uploading ..."
+  }
+}

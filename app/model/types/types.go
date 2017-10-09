@@ -1,8 +1,4 @@
-package main
-
-type Page struct {
-	Result string
-}
+package types
 
 /** Telegram types */
 type Message struct {
