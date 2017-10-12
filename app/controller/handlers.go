@@ -9,7 +9,10 @@ import (
 	"strconv"
 	"mirlan.maksv/telegram-bot/app/model/types"
 	"mirlan.maksv/telegram-bot/app/model"
-	"mirlan.maksv/telegram-bot/app/telegram"
+	tg "mirlan.maksv/telegram-bot/app/telegram"
+	"mirlan.maksv/telegram-bot/app/model/api"
+	"mirlan.maksv/telegram-bot/app"
+	"mirlan.maksv/telegram-bot/app/util"
 )
 
 func UploadHandler(w http.ResponseWriter, r *http.Request, ) {
@@ -25,32 +28,53 @@ func UploadHandler(w http.ResponseWriter, r *http.Request, ) {
 		fmt.Println("Error", err)
 		return
 	}
+	// remove audio when it's uploaded
+	go util.RemoveFile(filename)
 }
 
 func BotHandler(w http.ResponseWriter, r *http.Request) {
 	var in types.Message
-	var msg = types.ShortMessage{}
+	var tgMessage = types.TgMessage{}
 	err := json.NewDecoder(r.Body).Decode(&in)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	msg.Chat_id = in.Message.Chat.Id
+	tgMessage.Chat_id = in.Message.Chat.Id
 	command := in.Message.Text
-	length := len(telegram.Commands.GetMusic)
 
-	if command == telegram.Commands.Start {
-		msg.Text = telegram.Messages.Introduce
-	} else if command == telegram.Commands.GetMusic {
-		msg.Text = telegram.Messages.NoArgs
-	} else if len(command) >= length && command[:length] == telegram.Commands.GetMusic {
-		msg.Text = telegram.Messages.Wait
+	isCommandCorrect := detectCommand(&tgMessage, command)
+	api.Send(tg.Methods.SendMessage, &tgMessage)
+
+	if isCommandCorrect {
 		prefix := strconv.FormatUint(in.Update_id, 10)
-		go model.PrepareAudio(command, msg, prefix)
-	} else {
-		msg.Text = telegram.Messages.CantUnderstand
-	}
+		filename, resultMsg, err := model.PrepareAudio(command, prefix)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		tgMessage.Text = resultMsg
+		api.Send(tg.Methods.SendMessage, tgMessage)
 
-	model.Send(telegram.Methods.SendMessage, &msg)
+		audio := types.Audio{
+			Chat_id: tgMessage.Chat_id,
+			Audio:   app.Config.AppUrl + "/get?link=" + filename}
+		api.Send(tg.Methods.SendAudio, audio)
+	}
+}
+
+func detectCommand(tgMessage *types.TgMessage, command string) bool {
+	length := len(tg.Commands.GetMusic)
+	if command == tg.Commands.Start {
+		tgMessage.Text = tg.Messages.Introduce
+	} else if command == tg.Commands.GetMusic {
+		tgMessage.Text = tg.Messages.NoArgs
+	} else if len(command) >= length && command[:length] == tg.Commands.GetMusic {
+		tgMessage.Text = tg.Messages.Wait
+		return true
+	} else {
+		tgMessage.Text = tg.Messages.CantUnderstand
+	}
+	return false
 }

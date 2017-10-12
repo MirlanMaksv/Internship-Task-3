@@ -13,7 +13,7 @@
     "introduce": "Hi I am music extractor bot. Provide me with youtube video url you will get back mp3 of that video",
     "noArgs": "Include URL",
     "wait": "Downloading from the source ...",
-    "smtWentWrong": "Oops, something went wrong :(",
+    "smtWentWrong": ":( Oops, something went wrong. Try again later",
     "cantUnderstand": "Sorry, I didn't get you",
     "uploading": "Uploading ..."
   }

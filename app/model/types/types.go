@@ -28,7 +28,7 @@ type User struct {
 	Username   string `json:"username"`
 }
 
-type ShortMessage struct {
+type TgMessage struct {
 	Chat_id uint64 `json:"chat_id"`
 	Text    string `json:"text"`
 }

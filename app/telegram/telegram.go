@@ -40,7 +40,7 @@ var Methods TgMethods
 var Messages TgMessages
 
 func init() {
-	util.ParseJson("telegram.json", &tg)
+	util.ParseJson(util.GetWd()+"/telegram.json", &tg)
 
 	// reinitialize to minimize chaining
 	Url = tg.Url

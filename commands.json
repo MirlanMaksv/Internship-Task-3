@@ -1,5 +1,0 @@
-{
-  "ffmpeg": "ffmpeg -i temp/%s temp/%s.mp3 -b:a 256k",
-  "ydl_first": "youtube-dl -f bestaudio %s -o temp/%s",
-  "ydl_second": "%(id)s.%(ext)s"
-}
